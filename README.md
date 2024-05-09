@@ -24,46 +24,54 @@ RegisterNumber: 212223240082
 */
 ```
 ```py
-import chardet
-file="C:/Users/admin/Downloads/spam.csv"
-with open(file, 'rb') as rawdata:
-    result=chardet.detect(rawdata.read(100000))
-result    
-```
-## Output:
-![Screenshot 2024-05-06 134452](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/22d1e7a8-7af2-45ca-bc4e-9a3c30878e7f)
-```py
 import pandas as pd
-data=pd.read_csv("C:/Users/admin/Downloads/spam.csv",encoding='Windows-1252')
-```
-```py
-data.head()
-```
-## Output:
-![Screenshot 2024-05-06 134814](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/597fb3ba-3a0d-4670-8487-b7b3cc8bc246)
-```py
-data.info()
-```
-## Output:
-![Screenshot 2024-05-06 134939](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/77c00cfa-8a46-40c4-8bc4-314568fc6b90)
-```py
-data.isnull().sum()
-```
-## Output:
-![Screenshot 2024-05-06 135107](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/8da17406-c058-4e34-afcc-74ea0be0e49d)
-```py
-x=data["v1"].values
-```
-```py
-y=data["v2"].values
-```
-```py
+data=pd.read_csv("C:/Users/admin/Downloads/spam.csv",encoding = 'Windows-1252')
 from sklearn.model_selection import train_test_split
+```
+```py
+data
+```
+## Output:
+![Screenshot 2024-05-09 192343](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/8e93fa1c-4e99-447c-9f2c-cd81193a6511)
+
+```py
+data.shape
+```
+## Output:
+![Screenshot 2024-05-09 192435](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/9a49fc58-508b-4200-9beb-2a07e866c295)
+
+```py
+x=data["v2"].values
+```
+```py
+y=data["v1"].values
+```
+```py
+x.shape
+```
+## Output:
+![Screenshot 2024-05-09 192613](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/e894b15e-50ed-4367-afc5-625fae5d3e01)
+```py
+y.shape
+```
+## Output:
+![Screenshot 2024-05-09 192707](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/c6406dba-9140-4eb1-839b-5afd7f965457)
+```py
 x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=0)
 ```
 ```py
+x_train
+```
+## Output:
+![Screenshot 2024-05-09 192906](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/9056bda4-152c-454c-ad1a-60862f81b0d0)
+```py
+x_train.shape
+```
+## Output:
+![Screenshot 2024-05-09 193019](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/d1a4b28b-c570-4ade-8780-91691e77fa8c)
+
+```py
 from sklearn.feature_extraction.text import CountVectorizer
-#CountVectorizer is a method to convert text to numerical data.The text is tranaformed to a sparse matrix
 cv=CountVectorizer()
 ```
 ```py
@@ -73,20 +81,44 @@ x_test=cv.transform(x_test)
 ```
 ```py
 from sklearn.svm import SVC
+```
+```py
 svc=SVC()
+```
+```py
 svc.fit(x_train,y_train)
+```
+## Output:
+![Screenshot 2024-05-09 193308](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/e2f38da3-5cfd-41d8-9422-017eb1289912)
+```py
 y_pred=svc.predict(x_test)
 y_pred
 ```
 ## Output:
-![Screenshot 2024-05-06 135452](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/84677888-cf80-47a0-be65-406850a6ca38)
+![Screenshot 2024-05-09 193337](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/d0e87433-07e3-4dcd-b842-3d2aa9d97a09)
+
 ```py
-from sklearn import metrics
-accuracy=metrics.accuracy_score(y_test,y_pred)
-accuracy
+from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
+```
+```py
+acc=accuracy_score(y_test,y_pred)
+acc
 ```
 ## Output:
-![Screenshot 2024-05-06 135605](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/d7401f76-7cad-4621-9e42-7f52b02f2564)
+![Screenshot 2024-05-09 193527](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/962cc45e-b60b-46e1-968b-d0965fce3086)
+```py
+con=confusion_matrix(y_test,y_pred)
+print(con)
+```
+## Output:
+![Screenshot 2024-05-09 193700](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/52a05bc0-aa29-4116-8430-ba0bf8d44367)
+```py
+cl=classification_report(y_test,y_pred)
+print(cl)
+```
+## Output:
+![Screenshot 2024-05-09 193803](https://github.com/Mkumar262006/Implementation-of-SVM-For-Spam-Mail-Detection/assets/147139472/cde9389a-4baf-4488-b61f-a7c0e3220ff4)
+
 
 ## Result:
 Thus the program to implement the SVM For Spam Mail Detection is written and verified using python programming.
